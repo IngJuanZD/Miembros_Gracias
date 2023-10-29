@@ -9,13 +9,13 @@ from datetime import datetime
 
 #Generador lista mienbros
 #comando = "manim -qh -t miembros.py"
-comando = "cd /home/Nocheprogramacion/CosasChepe/Videos/GeneradorMiembros/ && manim -qh -t miembros.py"
+comando = "cd /home/Nocheprogramacion/CosasChepe/Miembros_Gracias/ && manim -qh -t miembros.py"
 
 # Guarda la ruta original de ejecución
 ruta_original = os.environ.get('PWD')
 print(ruta_original)
 input("Presiona cualquier tecla para finalizar el programa...")
-directorio_deseado = "/home/Nocheprogramacion/CosasChepe/Videos/GeneradorMiembros"
+directorio_deseado = "/home/Nocheprogramacion/CosasChepe/Miembros_Gracias"
 os.chdir(directorio_deseado)
 
 def cargarData(archivo):
@@ -80,7 +80,7 @@ while True:
         subprocess.run(comando, shell=True)
 
         # Ruta y Nombre donde se genera el video
-        archivo_a_mover = '/home/Nocheprogramacion/CosasChepe/Videos/GeneradorMiembros/media/videos/miembros/1080p60/miembros.mov'
+        archivo_a_mover = '/home/Nocheprogramacion/CosasChepe/Miembros_Gracias/media/videos/miembros/1080p60/miembros.mov'
         #print("Ruta del video")
         #input("Presiona cualquier tecla para finalizar el programa...")
         
