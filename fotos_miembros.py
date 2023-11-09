@@ -13,8 +13,6 @@ comando = "cd /home/Nocheprogramacion/CosasChepe/Miembros_Gracias/ && manim -qh 
 
 # Guarda la ruta original de ejecución
 ruta_original = os.environ.get('PWD')
-print(ruta_original)
-input("Presiona cualquier tecla para finalizar el programa...")
 directorio_deseado = "/home/Nocheprogramacion/CosasChepe/Miembros_Gracias"
 os.chdir(directorio_deseado)
 
