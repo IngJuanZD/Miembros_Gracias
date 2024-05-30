@@ -7,8 +7,7 @@ import requests
 import shutil
 from datetime import datetime
 
-#Generador lista mienbros
-#comando = "manim -qh -t miembros.py"
+# Generador lista mienbros
 comando = "cd /home/Nocheprogramacion/CosasChepe/Miembros_Gracias/ && manim -qh -t miembros.py"
 
 # Guarda la ruta original de ejecución
@@ -18,7 +17,7 @@ os.chdir(directorio_deseado)
 
 def cargarData(archivo):
     if not os.path.exists(archivo):
-        print(f"No se encontrol {archivo}")
+        print(f"No se encontró {archivo}")
         return None
     data = pd.read_csv(archivo)
     return data
@@ -32,7 +31,7 @@ try:
     os.mkdir(ruta_carpeta)
     print(f"Carpeta {nombre_carpeta} creada exitosamente en {ruta_carpeta}")
 except OSError as error:
-    print("Folder ya existe")
+    print("La carpeta ya existe")
 
 for url, nombre in zip(urlMiembros["Vínculo al perfil"], urlMiembros["Miembro"]):
     print()
@@ -43,20 +42,18 @@ for url, nombre in zip(urlMiembros["Vínculo al perfil"], urlMiembros["Miembro"]
         content = response.content
         html = content.decode('utf-8')
     else:
-        print("No se pudo obtener el contenido de la página.") 
+        print("No se pudo obtener el contenido de la página.")
         continue
 
-    patron = r'https://yt3.googleusercontent.com/ytc/(.+?)"'
+    patron = r'https://yt3\.googleusercontent\.com/[^"]+'
 
     resultado = re.search(patron, html)
 
     if resultado:
-        Youtube_id = resultado.group(1)
-        base = 'https://yt3.googleusercontent.com/ytc/'
-        imgPerfil = base + Youtube_id
+        imgPerfil = resultado.group(0)
         print(f"url: {imgPerfil}")
     else:
-        print("No se encontró el texto.")
+        print("No se encontró la URL de la imagen.")
         continue
 
     response = requests.get(imgPerfil)
@@ -68,30 +65,26 @@ for url, nombre in zip(urlMiembros["Vínculo al perfil"], urlMiembros["Miembro"]
         print("La imagen se ha guardado exitosamente.")
     else:
         print("No se pudo descargar la imagen.")
-        
+
 # Obtener la opción del usuario
 while True:
-    opcion = input("Ingrese 'S' para general el indice o 'N' para cerrar el programa: ").upper()
+    opcion = input("Ingrese 'S' para generar el índice o 'N' para cerrar el programa: ").upper()
     
     if opcion == 'S':
-        print("Espera para la genercaion del video.")
+        print("Espera para la generación del video.")
         subprocess.run(comando, shell=True)
 
         # Ruta y Nombre donde se genera el video
         archivo_a_mover = '/home/Nocheprogramacion/CosasChepe/Miembros_Gracias/media/videos/miembros/1080p60/miembros.mov'
-        #print("Ruta del video")
-        #input("Presiona cualquier tecla para finalizar el programa...")
-        
-        #Cambia al directorio donde se encuentra el archivo
+
+        # Cambia al directorio donde se encuentra el archivo
         os.chdir(os.path.dirname(archivo_a_mover))
-        #print("Detro de ruta del video")
-        #input("Presiona cualquier tecla para finalizar el programa...")
 
         # Regresa a la ruta original de ejecución
         os.chdir(ruta_original)
 
         # Obtiene la fecha actual y la formatea como texto
-        fecha_actual = datetime.now().strftime("%Y-%m-%d")  # Puedes personalizar el formato de fecha según tus necesidades
+        fecha_actual = datetime.now().strftime("%Y-%m-%d")
 
         # Obtiene la extensión del archivo
         nombre_base, extension = os.path.splitext(os.path.basename(archivo_a_mover))
