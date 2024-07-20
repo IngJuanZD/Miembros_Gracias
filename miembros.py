@@ -1,17 +1,23 @@
 import os
 import pandas as pd
 from manim import *
+import glob
 
-def cargarData(archivo):
-    if not os.path.exists(archivo):
-        print(f"No se control {archivo}")
+def cargarData():
+    # Buscar archivos con extensión .csv
+    archivos_csv = glob.glob("*.csv")
+    if not archivos_csv:
+        print("No se encontró ningún archivo .csv")
         return None
+    # Seleccionar el primer archivo .csv encontrado
+    archivo = archivos_csv[0]
+    print(f"Cargando datos desde {archivo}")
     data = pd.read_csv(archivo)
     return data
 
 class miembros(Scene):
     def construct(self):
-        miembros_bruto = cargarData("miembros.csv")
+        miembros_bruto = cargarData()
         
         # Obtener la opción del usuario
         opcion = input("Ingrese 'N' para ordenar por Nivel o 'T' para ordenar por Tiempo: ").upper()
@@ -26,7 +32,7 @@ class miembros(Scene):
             print("Opción inválida. No se realizará ningún ordenamiento.")
             miembros = miembros_bruto
 
-        #miembros = cargarData("miembros.csv")
+        # Verificar si se cargaron los datos correctamente
         if miembros is None:
             return
 
@@ -54,16 +60,19 @@ class miembros(Scene):
             self.add(imagen)
 
             nombreMiembro = Text(nombres).scale(1.2)
-            nombreMiembro.move_to([0,-1.5,0])
+            nombreMiembro.move_to([0, -1.5, 0])
 
             border = nombreMiembro.copy()
             border.set_stroke(color=BLUE, width=8)
             self.add(border, nombreMiembro)
             self.play(
-                       FadeIn(nombreMiembro, shift=DOWN, Scale=0.66), 
-                       FadeIn(imagen, shift=DOWN, Scale=0.66),
-                       FadeIn(border, shift=DOWN, Scale=0.66),)
+                FadeIn(nombreMiembro, shift=DOWN, scale=0.66), 
+                FadeIn(imagen, shift=DOWN, scale=0.66),
+                FadeIn(border, shift=DOWN, scale=0.66),
+            )
             
-            self.play(FadeOut(nombreMiembro, shift=DOWN * 2, Scale=1.5), FadeOut(imagen, shift=DOWN * 2, Scale=1.5),FadeOut(border, shift=DOWN * 2, Scale=1.5))
-            #return
+            self.play(FadeOut(nombreMiembro, shift=DOWN * 2, scale=1.5), 
+                      FadeOut(imagen, shift=DOWN * 2, scale=1.5),
+                      FadeOut(border, shift=DOWN * 2, scale=1.5))
+            
         self.wait(2)

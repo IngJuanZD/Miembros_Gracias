@@ -6,6 +6,7 @@ import pandas as pd
 import requests
 import shutil
 from datetime import datetime
+import glob
 
 # Generador lista mienbros
 comando = "cd /home/Nocheprogramacion/CosasChepe/Miembros_Gracias/ && manim -qh -t miembros.py"
@@ -15,14 +16,22 @@ ruta_original = os.environ.get('PWD')
 directorio_deseado = "/home/Nocheprogramacion/CosasChepe/Miembros_Gracias"
 os.chdir(directorio_deseado)
 
-def cargarData(archivo):
-    if not os.path.exists(archivo):
-        print(f"No se encontró {archivo}")
+def cargarData():
+    # Buscar archivos con extensión .csv
+    archivos_csv = glob.glob("*.csv")
+    if not archivos_csv:
+        print("No se encontró ningún archivo .csv")
         return None
+    # Seleccionar el primer archivo .csv encontrado
+    archivo = archivos_csv[0]
+    print(f"Cargando datos desde {archivo}")
     data = pd.read_csv(archivo)
     return data
 
-urlMiembros = cargarData("miembros.csv")
+urlMiembros = cargarData()
+
+if urlMiembros is None:
+    exit()
 
 nombre_carpeta = "fotos_miembros"
 ruta_carpeta = os.path.join(os.getcwd(), nombre_carpeta)
